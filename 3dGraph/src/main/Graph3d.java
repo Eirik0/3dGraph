@@ -611,6 +611,7 @@ public class Graph3d {
 		textprintf_ex(buffer, 1490, 885, makecol(255, 255, 255), String.format("0             phi rotation =  %-5d           pi", (pr_b - 1500) / 2));
 		textprintf_ex(buffer, 1490, 945, makecol(255, 255, 255), String.format("0            theta rotation = %-5d          2pi", tr_b - 1500));
 		textprintf_ex(buffer, 1490, 1005, makecol(255, 255, 255), String.format("0           screen rotation = %-5d          2pi", sr_b - 1500));
+		screen.drawImage(bufferImage, 0, 0, null);
 	}
 
 	private static class Graph3dMouseAdapter extends MouseAdapter {
@@ -797,12 +798,11 @@ public class Graph3d {
 	}
 
 	private static class Graph3dKeyAdapter extends KeyAdapter {
-		boolean escape = false;
 
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-				escape = true;
+				System.exit(0);
 			}
 		}
 	}
@@ -891,22 +891,6 @@ public class Graph3d {
 
 		graph.draw_everything(ma.w_s, ma.ol_s, ma.th_rotation, ma.ph_rotation, ma.sc_rotation, ma.detail, ma.zoom, ma.t_rot_bar_x, ma.p_rot_bar_x, ma.s_rot_bar_x, ma.d_bar_x, ma.s_bar_x,
 				ma.button_flash, ma.which_t);
-
-		do {
-			screen.drawImage(bufferImage, 0, 0, null);
-			screen.drawImage(mouse_cursorImage, ma.mouse_x, ma.mouse_y, null);
-			sleep(16);
-		} while (!keyAdapter.escape);
-
-		System.exit(0);
-	}
-
-	private static void sleep(int ms) {
-		try {
-			Thread.sleep(ms);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 	private static Color makecol(int r, int g, int b) {
@@ -938,5 +922,4 @@ public class Graph3d {
 		g.setColor(c);
 		g.drawString(str, x, y + g.getFontMetrics().getHeight() / 2);
 	}
-
 }
